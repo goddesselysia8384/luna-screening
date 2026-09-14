@@ -6,18 +6,8 @@
  const next=document.getElementById('nextBtn');
  const submit=document.getElementById('submitBtn');
  const bar=document.getElementById('progressBar');
- const GOOGLE_FORM_ACTION='https://docs.google.com/forms/d/e/1FAIpQLSelRIpfl95b2Hc9iRyNzeH3yPyOKniPGPCP_wyOVsUi-24XTw/formResponse';
+ const FORM_ENDPOINT='https://script.google.com/macros/s/AKfycbzsjAvWrWcl_G3DNcbPeR1JKgvT99ajOBIcbKuZqvMDc8VNrk3K8gEmA26ikS9nKTH7/exec';
  let current=1;
-
- const fieldMap={
-   name:'entry.2089585824', xhandle:'entry.1955330048', age:'entry.1316228930', av:'entry.431734988',
-   experience:'entry.1082086601', interests:'entry.661402157', lookingfor:'entry.1889743532',
-   hardlimits:'entry.331409833', softlimits:'entry.846213538', safeword:'entry.485287613', withdrawConsent:'entry.803275389',
-   monthlyBudget:'entry.1316233340', singleBudget:'entry.1594172881', frequency:'entry.54995696', style:'entry.775834035',
-   communication:'entry.1050580275', useful:'entry.471076883', respectBoundary:'entry.1796589710',
-   agreeAge:'entry.341900721', agreeAV:'entry.1544679755', agreeConsent:'entry.792645044', agreeFunds:'entry.147665834',
-   agreeLimits:'entry.2042026288', agreeTribute:'entry.498004103', agreeEnd:'entry.979947682'
- };
 
  function show(n){
    current=Math.max(1,Math.min(7,n));
@@ -46,23 +36,6 @@
    }
    return true;
  }
- function addValue(fd,key,value){ if(value!==undefined && value!==null && value!=='') fd.append(fieldMap[key],value); }
- function buildGooglePayload(){
-   const fd=new FormData();
-  fd.append('fvv','1');
-   fd.append('pageHistory','0,1,2,3,4,5,6');
-   ['name','xhandle','age','experience','lookingfor','hardlimits','softlimits','safeword','monthlyBudget','singleBudget','frequency','style','useful','respectBoundary'].forEach(key=>{
-     const el=form.elements[key]; if(el) addValue(fd,key,el.value);
-   });
-   const av=form.querySelector('input[name="av"]:checked'); if(av) addValue(fd,'av',av.value);
-   form.querySelectorAll('input[name="interests"]:checked').forEach(el=>addValue(fd,'interests',el.value));
-   form.querySelectorAll('input[name="communication"]:checked').forEach(el=>addValue(fd,'communication',el.value));
-   if(form.elements.withdrawConsent.checked) addValue(fd,'withdrawConsent','Yes');
-   ['agreeAge','agreeAV','agreeConsent','agreeFunds','agreeLimits','agreeTribute','agreeEnd'].forEach(key=>{
-     if(form.elements[key] && form.elements[key].checked) addValue(fd,key,'Yes');
-   });
-   return fd;
- }
  next.addEventListener('click',()=>{ if(validateCurrent()) show(current+1); });
  back.addEventListener('click',()=>show(current-1));
  nav.forEach((b,i)=>b.addEventListener('click',()=>{ if(i+1<=current || validateCurrent()) show(i+1); }));
@@ -71,7 +44,23 @@
    if(!validateCurrent()) return;
    submit.disabled=true; submit.textContent='SENDING…';
    try{
-     await fetch(GOOGLE_FORM_ACTION,{method:'POST',mode:'no-cors',body:buildGooglePayload()});
+     if(FORM_ENDPOINT==='PASTE_FORMSPREE_ENDPOINT_HERE'){
+       alert('Submission receiver has not been connected yet.');
+       submit.disabled=false; submit.textContent='SUBMIT TO LUNA 💋';
+       return;
+     }
+     const fd=new FormData(form);
+     // Make checkbox-only consent values human-readable in the inbox/dashboard.
+     ['withdrawConsent','agreeAge','agreeAV','agreeConsent','agreeFunds','agreeLimits','agreeTribute','agreeEnd'].forEach(key=>{
+       if(form.elements[key] && form.elements[key].checked) fd.set(key,'Yes');
+     });
+     fd.set('_subject', 'New Luna Wallet Application');
+     const res=await fetch(FORM_ENDPOINT,{
+       method:'POST',
+       body:fd,
+       headers:{'Accept':'application/json'}
+     });
+     if(!res.ok) throw new Error('Submission failed');
      form.style.display='none';
      document.getElementById('success').classList.add('show');
      bar.style.width='100%';
@@ -83,3 +72,4 @@
  });
  show(1);
 })();
+

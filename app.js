@@ -49,6 +49,8 @@
  function addValue(fd,key,value){ if(value!==undefined && value!==null && value!=='') fd.append(fieldMap[key],value); }
  function buildGooglePayload(){
    const fd=new FormData();
+  fd.append('fvv','1');
+   fd.append('pageHistory','0,1,2,3,4,5,6');
    ['name','xhandle','age','experience','lookingfor','hardlimits','softlimits','safeword','monthlyBudget','singleBudget','frequency','style','useful','respectBoundary'].forEach(key=>{
      const el=form.elements[key]; if(el) addValue(fd,key,el.value);
    });

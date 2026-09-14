@@ -16,7 +16,7 @@ nav{position:sticky;top:0;z-index:20;background:rgba(11,7,8,.9);backdrop-filter:
 .btn.primary{background:linear-gradient(135deg,var(--pink),#ff5d8f);color:#1b0b10;box-shadow:0 10px 30px rgba(255,122,163,.18)}
 .btn.ghost{border:1px solid #6e3848;background:#160d10;color:#fff}
 .hero{display:grid;grid-template-columns:1.06fr .94fr;min-height:560px;border-bottom:1px solid var(--line)}
-.heroimg{min-height:560px;background:url('assets/luna.jpg') center 42%/cover no-repeat;position:relative}
+.heroimg{min-height:560px;background:url('luna.jpg') center 42%/cover no-repeat;position:relative}
 .heroimg:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,6,7,.06),rgba(9,6,7,.5))}
 .heroCopy{padding:64px 6vw 50px 50px;display:flex;flex-direction:column;justify-content:center}
 .kicker{letter-spacing:.26em;font-size:12px;color:#e7bac8;text-transform:uppercase}

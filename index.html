@@ -82,8 +82,35 @@
 
   <div class="verification-step">
   <a class="btn verification-btn" href="javascript:void(0)"> 
+     onclick="document.getElementById('avMessage').classList.add('show')">
       🔞 AGE VERIFICATION
     </a>
+    <div id="avMessage" class="av-popup">
+  <div class="av-popup-box">
+    <button class="av-close"
+      onclick="document.getElementById('avMessage').classList.remove('show')">
+      ×
+    </button>
+
+    <div class="av-icon">🔞</div>
+
+    <h2>AGE VERIFICATION</h2>
+
+    <p>
+      Age verification is unlocked after application approval.
+    </p>
+
+    <p class="small">
+      Complete Luna's screening first. If your application is approved,
+      you'll receive instructions for completing your 18+ verification.
+    </p>
+
+    <button class="btn primary"
+      onclick="document.getElementById('avMessage').classList.remove('show')">
+      UNDERSTOOD ♡
+    </button>
+  </div>
+</div>
     <p class="verification-note">
       For approved applicants only.<br>
       Complete screening and receive Luna's approval before verifying.

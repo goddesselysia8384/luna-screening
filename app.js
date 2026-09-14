@@ -144,8 +144,7 @@
         body:JSON.stringify(payload)
       });
 
-     form.style.display='none';
-
+     steps.forEach(s => s.style.display='none');
 document.getElementById('success').classList.add('show');
 
 submit.style.display='none';

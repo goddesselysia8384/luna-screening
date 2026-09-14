@@ -238,3 +238,6 @@ textarea{min-height:120px;resize:vertical}
   justify-content:center;
   cursor:pointer;
 }
+.verification-btn{
+  color:#fff !important;
+}

@@ -144,14 +144,22 @@
         body:JSON.stringify(payload)
       });
 
-      form.style.display='none';
-      document.getElementById('success').classList.add('show');
-      bar.style.width='100%';
+     form.style.display='none';
 
-      window.scrollTo({
-        top:0,
-        behavior:'smooth'
-      });
+document.getElementById('success').classList.add('show');
+
+submit.style.display='none';
+back.style.display='none';
+next.style.display='none';
+
+document.querySelector('.stepnav').style.display='none';
+
+bar.style.width='100%';
+
+window.scrollTo({
+  top:0,
+  behavior:'smooth'
+});
 
     } catch(err){
       console.error(err);
